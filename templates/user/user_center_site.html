@@ -1,0 +1,55 @@
+{% extends 'base/base_user_center.html' %}
+{% block rigth_content %}
+    <div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+                        {% if address_list %}
+                            {% for address in address_list %}
+                                {% if address.is_default %}
+                                    <dd>{{ address.addr }} （{{ address.receiver }} 收） {{ address.phone }} <span style="color: orangered">(默认地址)</span>
+                                         <a href="{% url 'user:site_edit' address.id %}">编辑</a></dd>
+                                {% else %}
+                                    <dd>{{ address.addr }} （{{ address.receiver }} 收） {{ address.phone }}  <a
+                                            href="{% url 'user:site_edit' address.id %}">编辑</a></dd>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <dd>无</dd>
+                        {% endif %}
+					</dl>					
+				</div>
+				<h3 class="common_title2">新增收货地址</h3>
+				<div class="site_con">
+                    <h4 style="color: red;margin-left: 150px;font-weight: bolder">{{ errmsg }}</h4>
+					<form method="post">
+                        {% csrf_token %}
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="receiver">
+						</div>
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<textarea class="site_area" name="addr"></textarea>
+						</div>
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="zip_code">
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="phone">
+						</div>
+                        <div class="form_group">
+							<label>是否默认：</label>
+							<input type="checkbox" name="is_default" style="width: 20px; height: 20px;">
+						</div>
+						<input type="submit" name="" value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,33 @@
+{% extends 'base/base_user_center.html' %}
+{% block rigth_content %}
+    <div class="right_content clearfix">
+				<h3 class="common_title2">编辑收货地址</h3>
+				<div class="site_con">
+                    <h4 style="color: red;margin-left: 150px;font-weight: bolder">{{ errmsg }}</h4>
+					<form method="post">
+                        {% csrf_token %}
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="receiver" value="{{ address.receiver }}">
+						</div>
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<textarea class="site_area" name="addr">{{ address.addr }}</textarea>
+						</div>
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="zip_code" value="{{ address.zip_code }}">
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="phone" value="{{ address.phone }}">
+						</div>
+                        <div class="form_group">
+							<label>是否默认：</label>
+							<input type="checkbox" name="is_default" style="width: 20px; height: 20px;" {% if address.is_default %}checked{% endif %}>
+						</div>
+						<input type="submit" name="" value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+{% endblock %}
