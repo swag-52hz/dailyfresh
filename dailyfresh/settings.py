@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'cart',
     'goods',
     'user',
-    'order'
+    'order',
+    'admin'
 ]
 
 MIDDLEWARE = [
@@ -175,3 +176,6 @@ SESSION_CACHE_ALIAS = 'default'
 
 # 设置跳转登录url地址
 LOGIN_URL = '/user/login'
+
+# fastdfs服务的站点
+FASTDFS_SERVER_DOMAIN = "http://127.0.0.1:8888/"

@@ -2,9 +2,11 @@ import re
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django_redis import get_redis_connection
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired
 from user.models import User, Address
+from goods.models import GoodsSKU
 from django.views import View
 from django.conf import settings
 from django.http import HttpResponse, Http404
@@ -108,9 +110,18 @@ class ActiveView(View):
 class UserInfoView(LoginRequiredMixin, View):
     redirect_field_name = 'next'    # 可更改url参数名，默认为next
     def get(self, request):
+        address = Address.objects.get_default_address(request.user)
+        # 与redis数据库建立连接
+        redis_conn = get_redis_connection(alias='default')
+        history_key = 'history_%d' % request.user.id
+        # 获取用户最新浏览的五个商品的id
+        sku_ids = redis_conn.lrange(history_key, 0, 4)
+        goods_list = [ GoodsSKU.objects.get(id=id) for id in sku_ids ]
         return render(request, 'user/user_center_info.html',
                       context={
-                          'page': 'info'
+                          'page': 'info',
+                          'address': address,
+                          'goods_list': goods_list
                       })
 
 

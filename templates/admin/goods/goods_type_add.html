@@ -1,0 +1,77 @@
+{% extends 'admin/base/base.html' %}
+{% block title %}
+    {% if goods_type %}
+        编辑商品种类页
+    {% else %}
+        添加商品种类页
+    {% endif %}
+{% endblock %}
+{% block content_header %}
+    {% if goods_type %}
+        编辑商品种类
+    {% else %}
+        添加商品种类
+    {% endif %}
+{% endblock %}
+{% block header_option_desc %}
+  人生苦短，我用python
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12 col-xs-12 col-sm-12">
+    <div class="box box-primary">
+      <div class="box-body">
+        <div class="form-group">
+          <label for="news-title">商品种类名称</label>
+            {% if goods_type %}
+                <input style="width: 200px;" id="type-title" type="text" class="form-control" name="type_name" placeholder="请输入商品种类名称" value="{{ goods_type.name }}" autofocus>
+            {% else %}
+                <input style="width: 200px;" id="type-title" type="text" class="form-control" name="type_name" placeholder="请输入商品种类名称" autofocus>
+            {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="news-desc">商品类型logo</label>
+            {% if goods_type %}
+                <input style="width: 200px;" id="type-logo" type="text" class="form-control" name="goods_logo" placeholder="请输入商品logo" value="{{ goods_type.logo }}" autofocus>
+            {% else %}
+                <input style="width: 200px;" id="type-logo" type="text" class="form-control" name="goods_logo" placeholder="请输入商品logo" autofocus>
+            {% endif %}
+        </div>
+        <div class="form-group" id="container">
+          <label for="news-thumbnail-url">商品类型图</label>
+          <div class="input-group">
+              {% if goods_type %}
+                <input style="width: 360px" type="text" class="form-control" id="news-thumbnail-url" name="news-thumbnail-url" value="{{ goods_type.image_url }}"
+                   placeholder="请上传图片或输入商品类型图地址">
+              {% else %}
+                <input style="width: 360px" type="text" class="form-control" id="news-thumbnail-url" name="news-thumbnail-url"
+                   placeholder="请上传图片或输入商品类型图地址">
+              {% endif %}
+            <div class="input-group-btn" style="right: 600px;">
+              <label class="btn btn-default btn-file">
+                上传至服务器 <input type="file" id="upload-news-thumbnail">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="progress" style="display: none">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0;">0%</div>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+          {% if goods_type %}
+            <a href="javascript:void (0);" class="btn btn-primary pull-left" id="btn-add-type" data-news-id="{{ goods_type.id }}">更新商品种类 </a>
+          {% else %}
+            <a href="javascript:void (0);" class="btn btn-primary pull-left" id="btn-add-type" data-news-id="">添加商品种类 </a>
+          {% endif %}
+        </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/admin/goods/goods_type_add.js' %}"></script>
+{% endblock %}

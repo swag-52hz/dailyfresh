@@ -7,7 +7,7 @@ class GoodsType(BaseModel):
     """商品类型模型类"""
     name = models.CharField(max_length=20, verbose_name='商品类型名称')
     logo = models.CharField(max_length=20, verbose_name='类型标识')
-    image = models.ImageField(upload_to='type', verbose_name='商品类型图片')
+    image_url = models.URLField(default='', verbose_name='商品类型图片')
 
     class Meta:
         db_table = 'df_goods_type'

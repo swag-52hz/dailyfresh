@@ -1,0 +1,57 @@
+{% extends 'admin/base/base.html' %}
+
+{% block title %}
+  商品分类管理页
+{% endblock %}
+
+{% block content_header %}
+  商品分类管理
+{% endblock %}
+
+{% block header_option_desc %}
+  商品分类
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 col-xs-12 col-sm-12">
+      <div class="box box-primary">
+        <div class="box-header">
+            <a href="{% url 'admin:goods_type_add' %}" class="btn btn-primary pull-right">添加商品种类</a>
+        </div>
+        <div class="box-body">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th>商品种类名称</th>
+              <th>商品数量</th>
+                <th>商品logo</th>
+                <th>种类封面图</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            {% for good_type in good_types %}
+              <tr data-id="{{ good_type.id }}" data-name="{{ good_type.name }}">
+                <td>{{ good_type.name }}</td>
+                <td>{{ good_type.num_goods}}</td>
+                  <td>{{ good_type.logo }}</td>
+                  <td>{{ good_type.image_url }}</td>
+                <td>
+                    <a href="{% url 'admin:goods_type_edit' good_type.id %}" class="btn btn-xs btn-warning btn-edit">编辑</a>
+                  <button class="btn btn-xs btn-danger btn-del">删除</button>
+                </td>
+              </tr>
+            {% endfor %}
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'js/admin/goods/tags_manage.js' %}"></script>
+{% endblock %}

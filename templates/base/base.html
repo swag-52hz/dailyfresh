@@ -17,6 +17,10 @@
                 {% if user.is_authenticated %}
 				    <div class="login_btn fl">
 					欢迎您：<em>{{ user.username }}</em>
+                    {% if user.is_superuser %}
+                        <span>|</span>
+                        <a href="{% url 'admin:index' %}">后台管理</a>
+                    {% endif %}
                     <span>|</span>
 					<a href="{% url 'user:logout' %}">退出登录</a>
 				</div>
