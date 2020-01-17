@@ -61,6 +61,13 @@
           </div>
         </div>
       </div>
+        <div>
+            {% if goods_type %}
+                <img height="200px;" src="{{ goods_type.image_url }}" id="type-image" alt="">
+            {% else %}
+                <img height="200px" src="" id="type-image" alt="">
+            {% endif %}
+        </div>
       <div class="box-footer">
           {% if goods_type %}
             <a href="javascript:void (0);" class="btn btn-primary pull-left" id="btn-add-type" data-news-id="{{ goods_type.id }}">更新商品种类 </a>

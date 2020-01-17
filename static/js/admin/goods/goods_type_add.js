@@ -25,6 +25,7 @@ $(function () {
           // console.log(thumbnailUrl);
           $thumbnailUrl.val('');
           $thumbnailUrl.val(sImageUrl);
+          $("#type-image").attr('src', sImageUrl)
         } else {
           message.showError(res.errmsg)
         }

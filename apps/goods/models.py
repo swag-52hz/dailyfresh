@@ -75,7 +75,7 @@ class GoodsImage(BaseModel):
 class IndexGoodsBanner(BaseModel):
     """首页轮播图展示模型类"""
     sku = models.ForeignKey('GoodsSKU', on_delete=models.CASCADE, verbose_name='商品')
-    image = models.ImageField(upload_to='banner', verbose_name='图片路径')
+    image_url = models.URLField(default='', verbose_name='图片路径')
     index = models.SmallIntegerField(default=0, verbose_name='展示顺序')
 
     class Meta:
@@ -111,7 +111,7 @@ class IndexPromotionBanner(BaseModel):
     """首页促销活动模型类"""
     url = models.CharField(max_length=256, verbose_name='活动url')
     name = models.CharField(max_length=20, verbose_name='活动名称')
-    image = models.ImageField(upload_to='goods', verbose_name='图片路径')
+    image_url = models.URLField(default='', verbose_name='图片路径')
     index = models.SmallIntegerField(default=0, verbose_name='展示顺序')
 
     class Meta:
