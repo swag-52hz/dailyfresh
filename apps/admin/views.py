@@ -92,3 +92,13 @@ class GoodsUploadImage(View):
         else:
             return to_json_data(errno=Code.UNKOWNERR, errmsg='上传图片到服务器失败！')
 
+
+class GoodManageView(View):
+    def get(self, request):
+        goods_info = models.GoodsSKU.objects.all()
+        return render(request, 'admin/goods/goods_manage.html', locals())
+
+
+class GoodAddView(View):
+    def get(self, request):
+        return render(request, 'admin/goods/goods_add.html')

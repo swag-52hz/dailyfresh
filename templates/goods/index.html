@@ -59,8 +59,8 @@
 			<ul class="goods_list fl">
 				{% for goods in type.goodssku_set.all %}
 				    <li>
-                        <h4><a href="#">{{ goods.name }}</a></h4>
-                        <a href="#"><img src="{{ goods.image }}"></a>
+                        <h4><a href="{% url 'goods:detail' goods.id %}">{{ goods.name }}</a></h4>
+                        <a href="{% url 'goods:detail' goods.id %}"><img src="{{ goods.image }}"></a>
                         <div class="prize">¥ {{ goods.price }}</div>
                     </li>
 				{% endfor %}
@@ -70,9 +70,9 @@
     {% endfor %}
 {% endblock %}
 {% block bottom_files %}
-	<script type="text/javascript" src="{% static 'js/slideshow.js' %}"></script>
+{#	<script type="text/javascript" src="{% static 'js/slideshow.js' %}"></script>#}
 	<script type="text/javascript">
-		BCSlideshow('focuspic');
+		{#BCSlideshow('focuspic');#}
 		var oFruit = document.getElementById('fruit_more');
 		var oShownum = document.getElementById('show_count');
 
