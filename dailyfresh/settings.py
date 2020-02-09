@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'goods',
     'user',
     'order',
-    'admin'
+    'admin',
+    'haystack'  # 注册全文检索框架
 ]
 
 MIDDLEWARE = [
@@ -179,3 +180,18 @@ LOGIN_URL = '/user/login'
 
 # fastdfs服务的站点
 FASTDFS_SERVER_DOMAIN = "http://127.0.0.1:8888/"
+
+# 全文检索框架配置
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 使用whoosh
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        # 索引文件路径
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# 当添加。修改、删除数据时，自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+# 指定搜索每页显示条数 默认20
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 1
