@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse, redirect
 from django.views import View
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 from goods import models
 from django_redis import get_redis_connection
 from order.models import OrderGoods
@@ -36,6 +37,8 @@ class DetailView(View):
         types = models.GoodsType.objects.all()
         # 获取商品评论信息
         sku_orders = OrderGoods.objects.filter(sku=goods).exclude(comment='')
+        # 获取同一SPU的商品信息
+        same_spu_skus = models.GoodsSKU.objects.filter(goods_spu=goods.goods_spu).exclude(id=goods_id)
         # 获取新品信息
         new_goods = models.GoodsSKU.objects.filter(type=goods.type).order_by('-create_time')[:2]
         # 获取用户购物车中商品数目
@@ -54,4 +57,46 @@ class DetailView(View):
             # 只保存用户最新浏览的五条商品信息
             conn.ltrim(history_key, 0, 4)
         return render(request, 'goods/detail.html', locals())
+
+
+class ListView(View):
+    """商品种类列表页类视图"""
+    def get(self, request, type_id, page):
+        try:
+            type = models.GoodsType.objects.filter(id=type_id).first()
+        except models.GoodsType.DoesNotExist as e:
+            return redirect(reverse('goods:index'))
+        sort = request.GET.get('sort')
+        if sort == 'price':
+            skus = models.GoodsSKU.objects.filter(type=type).order_by('price')
+        elif sort == 'sales':
+            skus = models.GoodsSKU.objects.filter(type=type).order_by('-sales')
+        else:
+            sort = 'default'
+            skus = models.GoodsSKU.objects.filter(type=type).order_by('-id')
+        # 创建分页对象，每页显示1条数据
+        paginator = Paginator(skus, 1)
+        if page > paginator.num_pages:
+            page = paginator.num_pages
+        skus_page = paginator.page(page)
+        # 对页码进行控制
+        num_pages = paginator.num_pages
+        if num_pages < 5:
+            page_list = range(1, num_pages+1)
+        elif page <=3:
+            page_list = range(1, 6)
+        elif num_pages - page <=2:
+            page_list = range(num_pages-4, num_pages+1)
+        else:
+            page_list = range(page-2, page+3)
+        # 获取新品信息
+        new_goods = models.GoodsSKU.objects.filter(type=type).order_by('-create_time')[:2]
+        # 获取用户购物车中商品数目
+        cart_count = 0
+        user = request.user
+        if user.is_authenticated:
+            conn = get_redis_connection('default')
+            cart_key = 'cart_%d' % user.id
+            cart_count = conn.hlen(cart_key)
+        return render(request, 'goods/list.html', locals())
 

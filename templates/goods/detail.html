@@ -12,7 +12,7 @@
 	</div>
 
 	<div class="goods_detail_con clearfix">
-		<div class="goods_detail_pic fl"><img src="{{ goods.image }}"></div>
+		<div class="goods_detail_pic fl"><img src="{{ goods.image }}" height="180px"></div>
 
 		<div class="goods_detail_list fr">
 			<h3>{{ goods.name }}</h3>
@@ -29,6 +29,14 @@
 					<a href="javascript:void(0)" class="minus fr">-</a>
 				</div> 
 			</div>
+            <div>
+                <p>其它规格：</p>
+                <ul>
+                    {% for sku in same_spu_skus %}
+                    <li><a href="{% url 'goods:detail' sku.id %}">{{ sku.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
 			<div class="total">总价：<em>16.80元</em></div>
 			<div class="operate_btn">
 				<a href="javascript:void(0);" class="buy_btn">立即购买</a>
