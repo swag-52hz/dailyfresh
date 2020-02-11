@@ -22,7 +22,7 @@ urlpatterns = [
     path('search/', include('haystack.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('user/', include('user.urls')),
-    path('', include('cart.urls')),
+    path('cart/', include('cart.urls')),
     path('', include('goods.urls')),
     path('', include('order.urls')),
 ]
